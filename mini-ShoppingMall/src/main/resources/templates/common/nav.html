@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+    <style>
+        @font-face {
+            font-family: 'SUITE-Regular';
+            src:
+                url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+        }
+        .navbar, .container {
+        font-family: 'SUITE-Regular';
+        }
+
+        .nav-link {
+            font-size: 1.2rem;
+            display: inline;
+        }
+
+        body {
+            background-color: rgba(248, 249, 250);
+        }
+
+    </style>
+</head>
+
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+<nav class="navbar navbar-expand-lg" style="height: 8rem">
+    <div class="container-fluid mx-5">
+        <a class="nav-link" aria-current="page" th:href="@{http://localhost:8070/shop/main(gCategory=top)}">
+            <img src="images/logo.png" alt="Logo" width="auto" height="35"
+                 class="d-inline-block align-text-top mx-2">
+            <span style="font-size: 1.7rem"><strong>스윗스토어</strong></span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse mx-5" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2">
+                <li class="nav-item"><a class="nav-link" href="main?gCategory=top"><span
+                        style="font-size: 1.2rem">TOP</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="main?gCategory=dress"><span
+                        style="font-size: 1.2rem">DRESS</span></a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="main?gCategory=outer"><span
+                        style="font-size: 1.2rem;">OUTER</span></a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="main?gCategory=bottom"><span
+                        style="font-size: 1.2rem">BOTTOM</span></a>
+                </li>
+            </ul>
+
+            <div th:if="${session['login']==null}">
+                <ul class="navbar-nav mb-2 me-5">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" th:href="@{/loginUI}"><span>로그인</span></a>
+                        <a class="nav-link" aria-current="page" th:href="@{/joinUI}"><span>회원가입</span></a>
+                    </li>
+                </ul>
+            </div>
+            <div th:if="${session['login']!=null}">
+                <ul class="navbar-nav mb-2 me-5">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" th:href="@{/logout}"><span>로그아웃</span></a>
+                        <a class="nav-link" aria-current="page" th:href="@{/mypage}"><span>마이페이지</span></a>
+                        <a class="nav-link" aria-current="page" th:href="@{/carts}"><span>장바구니</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+</body>
+
+</html>

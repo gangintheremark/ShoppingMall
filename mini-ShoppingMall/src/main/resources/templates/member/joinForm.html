@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 화면</title>
+    <style>
+        .input-form {
+            max-width: 680px !important;
+            margin-top: 40px;
+            padding: 32px;
+            background: #fff;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            -webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+            -moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
+        }
+    </style>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // 비밀번호 일치 여부 확인
+        $("#passwd2").on("keyup", function () {
+            var passwd = $("#passwd").val();
+            var passwd2 = $("#passwd2").val();
+            var mesg = "비밀번호가 다릅니다";
+
+            if (passwd == passwd2) {
+                mesg = "비밀번호가 일치합니다";
+            }
+
+            $("#pwcheck").text(mesg);
+        });
+
+        // 아이디 중복체크
+        $("#idcheck").on("click", function () {
+            event.preventDefault();
+
+            $.ajax({
+                type: "get",
+                url: "memberIdCheck",
+                data: {
+                    userid: $("#userid").val()
+                },
+                dataType: 'text',
+                success: function (data, status, xhr) {
+                    $("#result").text(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log("error 발생");
+                }
+            });
+        });
+
+        // 이메일 도메인 선택
+        $("#emailDomain").change(function () {
+            var selectedDomain = $(this).val();
+            $("#email2").val(selectedDomain);
+        });
+
+        // 이메일 합치기
+        function combineEmail() {
+            var email1 = $("#email1").val();
+            var email2 = $("#email2").val();
+
+            var combinedEmail = email1 + "@" + email2;
+            $("#email").val(combinedEmail);
+            console.log(combinedEmail);
+        }
+
+        $("#email1, #email2").on("blur", combineEmail);
+        $("#emailDomain").on("change", combineEmail);
+
+        // 전화번호 합치기
+        function combinePhone() {
+            var phone1 = $("#phone1").val();
+            var phone2 = $("#phone2").val();
+            var phone3 = $("#phone3").val();
+
+            var combinedPhone = phone1 + phone2 + phone3;
+            $("#phone").val(combinedPhone);
+            console.log(combinedPhone);
+        }
+
+        $("#phone1, #phone2, #phone3").on("blur", combinePhone);
+        $("#emailDomain").on("change", combinePhone);
+
+        // 회원가입
+        $("#joinBtn").on("click", function() {
+            var formData = {
+                userid: $("#userid").val(),
+                passwd: $("#passwd").val(),
+                username: $("#username").val(),
+                post: $("#postcode").val(),
+                addr1: $("#roadAddress").val(),
+                addr2: $("#addr2").val(),
+                phone: $("#phone").val(),
+                email: $("#email").val()
+            };
+
+            $.ajax({
+                url: "/shop/member",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(formData),
+                success: function(response) {
+                    window.location.href = "successJoin";
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
+</head>
+
+<body>
+<div th:include="'/common/nav'"></div>
+<div class="container">
+    <div class="input-form-backgroud row">
+        <div class="input-form col-md-12 mx-auto">
+            <h4 class="mb-3">회원가입</h4>
+            <form id="memberForm" class="validation-form" novalidate onsubmit="return validateForm()">
+                <input type="hidden" name="email" id="email">
+                <input type="hidden" name="phone" id="phone">
+                <label for="userid">아이디</label> <span style="color: rgb(201, 33, 33)" id="result"></span>
+                <div class="row">
+                    <div class="col-md-9 mb-3">
+                        <input type="text" class="form-control" name="userid" id="userid" required
+                               autocomplete="off">
+                        <div class="invalid-feedback">아이디를 입력해주세요.</div>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" id="idcheck" class="btn btn-primary"
+                                style="height: 2.3rem;">중복확인
+                        </button>
+                        <br>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="passwd">비밀번호</label>
+                        <input type="password" class="form-control" name="passwd" id="passwd" required>
+                        <div class="invalid-feedback">비밀번호를 입력해주세요.</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="passwd2">비밀번호 확인</label> &nbsp; <strong><span style="color: green"
+                                                                                  id="pwcheck"></span></strong> <input
+                            type="password" class="form-control"
+                            id="passwd2" required>
+                        <div class="invalid-feedback">비밀번호를 입력해주세요.</div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="username">이름</label>
+                    <input type="text" class="form-control" id="username" name="username" required autocomplete="off">
+                    <div class="invalid-feedback">이름을 입력해주세요.</div>
+                </div>
+
+                <!-- kakao 도로명 주소 API -->
+                <div class="mb-3">
+                    <label for="post">우편번호</label>
+                    <div class="row">
+                        <div class="col-md-4 mb-0">
+                            <input type="text" class="form-control" name="post" id="postcode" autocomplete="off"
+                                   required>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" onclick="execDaumPostcode()" class="btn btn-primary"
+                                    style="height: 2.3rem;">우편번호
+                                찾기
+                            </button>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-1">
+                        <input type="text" class="form-control" name="addr1" id="roadAddress"
+                               placeholder="도로명주소" required>
+                        <div class="invalid-feedback">주소를 입력해주세요.</div>
+                    </div>
+                    <div class="col-md-6 mb-1">
+                        <input type="text" name="addr2" class="form-control" id="addr2"
+                               placeholder="상세주소" required>
+                        <div class="invalid-feedback">주소를 입력해주세요.</div>
+                    </div>
+                    <span id="guide" style="color: #999"></span><br>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="email">이메일</label>
+                        <input type="text" class="form-control" id="email1" autocomplete="off" required>
+                        <div class="invalid-feedback">이메일을 입력해주세요.</div>
+                    </div>
+                    <div class="col-md-4 mt-4">
+                        <input type="text" class="form-control" id="email2" placeholder="직접입력" required>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div class="col-md-4 mt-4">
+                        <select id="emailDomain" class="form-select">
+                            <option value="">--직접입력--</option>
+                            <option value="daum.net">daum.net</option>
+                            <option value="naver.com">naver.com</option>
+                            <option value="google.com">google.com</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="phone1">전화번호</label>
+                        <select class="form-select" id="phone1">
+                            <option value="010">010</option>
+                            <option value="011">011</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="phone2"></label>
+                        <input type="text" id="phone2" class="form-control" autocomplete="off" required>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="phone3"></label>
+                        <input type="text" id="phone3" class="form-control" autocomplete="off" required>
+                    </div>
+                </div>
+
+                <hr class="mb-4">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="aggrement" required> <label
+                        class="custom-control-label" for="aggrement">개인정보 수집 및 이용에 동의합니다.</label>
+                </div>
+                <div class="mb-4"></div>
+
+                <div style="text-align: center;">
+                    <button class="btn btn-primary" type="button" id="joinBtn">회원가입</button>
+                    <button class="btn btn-primary" type="reset" style="text-align: center;">취소</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <footer class="my-3 text-center text-small">
+        <p class="mb-1">&copy;gangintheremark</p>
+    </footer>
+</div>
+<script>
+    window.addEventListener('load', () => {
+        const forms = document.getElementsByClassName('validation-form');
+
+        Array.prototype.filter.call(forms, (form) => {
+            form.addEventListener('submit', function (event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+</script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script>
+    //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
+    function execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+                var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                    extraRoadAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if (data.buildingName !== '' && data.apartment === 'Y') {
+                    extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if (extraRoadAddr !== '') {
+                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+                }
+                // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+                if (fullRoadAddr !== '') {
+                    fullRoadAddr += extraRoadAddr;
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('postcode').value = data.zonecode; //5자리 새우편번호 사용
+                document.getElementById('roadAddress').value = fullRoadAddr;
+
+                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+                if (data.autoRoadAddress) {
+                    //예상되는 도로명 주소에 조합형 주소를 추가한다.
+                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                    document.getElementById('guide').innerHTML = '(도로명 주소 : ' + expRoadAddr + ')';
+
+                } else if (data.autoJibunAddress) {
+                    var expJibunAddr = data.autoJibunAddress;
+                    document.getElementById('guide').innerHTML = '(지번 주소 : ' + expJibunAddr + ')';
+
+                } else {
+                    document.getElementById('guide').innerHTML = '';
+                }
+            }
+        }).open();
+    }
+</script>
+<script>
+    function validateForm() {
+        var passwd1 = document.getElementById("passwd").value;
+        var passwd2 = document.getElementById("passwd2").value;
+
+        if (passwd1 !== passwd2) {
+            alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+            return false;
+           }
+        return true;
+    }
+</script>
+</body>
+</html>

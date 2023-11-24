@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인화면</title>
+    <style>
+
+        .flex-container {
+            max-width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .container {
+        justify-content: center;
+        }
+
+        .card {
+            flex: 0 0 calc(25% - 1rem);
+            margin: 0.5rem;
+            width: 15rem;
+        }
+
+    </style>
+</head>
+<body>
+<div th:include="'/common/nav'"></div>
+<!-- HTML -->
+<div class="container">
+<div class="flex-container">
+    <div th:each="good : ${goodsList}" class="card text-center mb-3">
+        <div class="card-body">
+            <a th:href="@{'goodsRetrieve?gcode=' + ${good.gcode}}">
+                <img th:src="@{'images/items/' + ${good.gimage} + '.gif'}" class="card-img-top" alt="...">
+            </a>
+            <h5 th:text="${good?.gname}" class="card-title"></h5>
+            <p class="card-text" th:text="${good.gcontent}"></p>
+            <p><strong th:text="${good.gprice} + ' 원'"></strong></p>
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+</html>
