@@ -51,9 +51,6 @@ public class OrderService {
     public CartsAndMemberDTO orderConfirmAll(List<Long> cartIds, String userid) {
         List<CartEntity> carts = cartRepository.findCarts(cartIds);
         MemberEntity user = memberRepository.findById(userid).orElseThrow();
-        for(CartEntity dto : carts) {
-            System.out.println("CArts : " + dto);
-        }
 
         List<CartDTO> cartDTOs = carts.stream().map(cart ->  CartDTO.builder()
                 .cartid(cart.getCartid())
