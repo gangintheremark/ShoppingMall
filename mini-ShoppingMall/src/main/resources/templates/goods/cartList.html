@@ -157,7 +157,7 @@
 
             <tr th:each="cart:${carts}">
                 <td class="td_default" width="120" align="center">
-                    <input type="checkbox" name="check" class="check" value="${cart.cartid}">
+                    <input type="checkbox" name="check" class="check" th:value="${cart.cartid}">
                 </td>
                 <td class="td_default" width="80" th:text="${cart.cartid}"></td>
                 <td class="td_default" width="80">
@@ -172,7 +172,7 @@
                 <td class="td_default" align="center" width="110"><span th:id="'gprice' + ${cart.cartid}"
                                                                         th:text="${cart.gprice}"></span></td>
                 <td class="td_default" align="center" width="90">
-                    <input class="input_default" type="text" name="gamount" th:id="'gamount' + ${cart.cartid}"
+                    <input class="input_default" type="text" th:id="'gamount' + ${cart.cartid}"
                            style="text-align: right" maxlength="2" size="2" th:value="${cart.gamount}">
                 </td>
                 <td><input type="button" value="수정" class="updateBtn btn btn-primary"
@@ -200,7 +200,7 @@
             <tr>
                 <td align="center" colspan="5">
                     <button class="btn btn-primary mx-3" id="orderAll"
-                            onclick="javascript: form.action='OrderConfirmAll';">전체
+                            onclick="javascript: form.action='orders';">전체
                         주문하기</button>
                     <a class="btn btn-primary" th:href="main">계속 쇼핑하기</a>
                 </td>
