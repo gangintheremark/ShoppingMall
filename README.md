@@ -5,6 +5,7 @@
 <a href="https://velog.io/@gangintheremark/series/Mini-ShoppingMall" target="_blank"><img src="https://img.shields.io/badge/velog-20C997?style=for-the-badge&logo=velog&logoColor=white"></a>
 
 ### ▶ Tech Stacks
+
 <div style="text-align:center;">
 <img src="https://img.shields.io/badge/thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white">
 <img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white"> <br>
