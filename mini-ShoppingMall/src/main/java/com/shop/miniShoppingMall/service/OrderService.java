@@ -9,7 +9,6 @@ import com.shop.miniShoppingMall.repository.MemberRepository;
 import com.shop.miniShoppingMall.repository.OrderRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Service;
 

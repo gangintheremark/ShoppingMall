@@ -28,8 +28,12 @@ public class CartController {
 
     @PostMapping("/cart")
     @ResponseBody
-    public void cartAdd(@RequestBody CartEntity request) {
+    public String cartAdd(@RequestBody CartEntity request) {
+        if (request.getUserid() == null ) {
+            return "로그인이 필요합니다";
+        }
         cartService.cartAdd(request);
+        return "장바구니에 저장되었습니다";
     }
 
     @PutMapping("/carts")
