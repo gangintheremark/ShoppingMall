@@ -1,17 +1,15 @@
-package com.shop.miniShoppingMall.model;
+package com.shop.miniShoppingMall.dto;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Setter
-@Getter
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="orderinfo")
-@Entity
-public class OrderEntity {
-    @Id
+public class OrderAndCartDTO {
     private String merchant_uid;
     private String userid;
     private String post;
@@ -26,4 +24,5 @@ public class OrderEntity {
     private int gamount;
     private String recipient;
     private String orderDay;
+    private Long cartid;
 }

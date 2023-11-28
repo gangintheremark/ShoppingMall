@@ -1,7 +1,9 @@
 package com.shop.miniShoppingMall.controller;
 
 import com.shop.miniShoppingMall.dto.*;
+import com.shop.miniShoppingMall.model.BuyerEntity;
 import com.shop.miniShoppingMall.model.OrderEntity;
+import com.shop.miniShoppingMall.repository.BuyerRepository;
 import com.shop.miniShoppingMall.repository.CartRepository;
 import com.shop.miniShoppingMall.repository.MemberRepository;
 import com.shop.miniShoppingMall.service.OrderService;
@@ -19,6 +21,7 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+
     @GetMapping("/order")
     public String orderConfirm(@RequestParam Long cartid, HttpSession session, Model m ) {
         String userid =  (String) session.getAttribute("login");
@@ -43,21 +46,45 @@ public class OrderController {
         return "goods/orderConfirmAll";
     }
 
-    @PostMapping("/orderDone")
+    @PostMapping("/save_buyerInfo")
     @ResponseBody
-    public Long orderDone(@RequestBody OrderEntity request){
-        OrderEntity order = orderService.orderDone(request);
+    public void save_buyerInfo(@RequestBody BuyerEntity request){
+        orderService.save_buyerInfo(request);
+    }
+
+    @PostMapping("/save_orderInfo")
+    @ResponseBody
+    public String orderDone(@RequestBody OrderAndCartDTO request, Model m) {
+        OrderEntity orderEntity = OrderEntity.builder()
+                .merchant_uid(request.getMerchant_uid())
+                .userid(request.getUserid())
+                .gcode(request.getGcode())
+                .gname(request.getGname())
+                .gamount(request.getGamount())
+                .gcolor(request.getGcolor())
+                .gimage(request.getGimage())
+                .gprice(request.getGprice())
+                .gsize(request.getGsize())
+                .recipient(request.getRecipient())
+                .post(request.getPost())
+                .addr(request.getAddr())
+                .phone(request.getPhone())
+                .build();
+
+        orderService.save_orderInfo(orderEntity);
         orderService.deleteCart(request.getCartid(), request.getUserid());
-        return order.getOrderid();
+
+        return request.getMerchant_uid();
     }
 
     @GetMapping("/orderDone")
-    public String orderDone(@RequestParam Long orderid, Model m) {
-        OrderDTO order = orderService.findOrder(orderid);
-        m.addAttribute("order", order);
+    public String orderDone(@RequestParam String merchant_uid, Model m) {
+        BuyerDTO buyer = orderService.orderDone(merchant_uid);
+        m.addAttribute("buyer", buyer);
 
         return "goods/orderDone";
     }
+
 
     @GetMapping("/ordersDone")
     public String ordersDone(String userid, String username, String ordername, String post, String addr1, String addr2, String phone, String paymethod, int totalPrice, HttpSession session, Model m) {

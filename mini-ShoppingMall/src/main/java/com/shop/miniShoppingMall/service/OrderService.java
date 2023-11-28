@@ -1,9 +1,11 @@
 package com.shop.miniShoppingMall.service;
 
 import com.shop.miniShoppingMall.dto.*;
+import com.shop.miniShoppingMall.model.BuyerEntity;
 import com.shop.miniShoppingMall.model.CartEntity;
 import com.shop.miniShoppingMall.model.MemberEntity;
 import com.shop.miniShoppingMall.model.OrderEntity;
+import com.shop.miniShoppingMall.repository.BuyerRepository;
 import com.shop.miniShoppingMall.repository.CartRepository;
 import com.shop.miniShoppingMall.repository.MemberRepository;
 import com.shop.miniShoppingMall.repository.OrderRepository;
@@ -23,6 +25,7 @@ public class OrderService {
     final private MemberRepository memberRepository;
     final private CartRepository cartRepository;
     final private OrderRepository orderRepository;
+    final private BuyerRepository buyerRepository;
 
     public CartAndMemberDTO orderConfirm(String userid, Long cartid) {
         CartEntity cart = cartRepository.findByUseridAndCartid(userid, cartid);
@@ -75,10 +78,13 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderEntity orderDone(OrderEntity request) {
-        OrderEntity order = orderRepository.save(request);
+    public void save_buyerInfo(BuyerEntity request) {
+        buyerRepository.save(request);
+    }
 
-        return order;
+    @Transactional
+    public void save_orderInfo(OrderEntity request) {
+        orderRepository.save(request);
     }
 
     @Transactional
@@ -87,27 +93,18 @@ public class OrderService {
         cartRepository.delete(cart);
     }
 
-    public OrderDTO findOrder(Long orderid) {
-        OrderEntity order = orderRepository.findById(orderid).orElseThrow();
-
-        return OrderDTO.builder()
-                .orderid(order.getOrderid())
-                .cartid(order.getCartid())
-                .gcode(order.getGcode())
-                .gname(order.getGname())
-                .gsize(order.getGsize())
-                .gcolor(order.getGcolor())
-                .gimage(order.getGimage())
-                .gprice(order.getGprice())
-                .gamount(order.getGamount())
-                .userid(order.getUserid())
-                .username(order.getUsername())
-                .post(order.getPost())
-                .addr1(order.getAddr1())
-                .addr2(order.getAddr2())
-                .phone(order.getPhone())
-                .ordername(order.getOrdername())
-                .paymethod(order.getPaymethod())
+    public BuyerDTO orderDone(String merchant_uid) {
+        BuyerEntity buyer = buyerRepository.findById(merchant_uid).orElseThrow();
+        return BuyerDTO.builder()
+                .merchant_uid(buyer.getMerchant_uid())
+                .userid(buyer.getUserid())
+                .pay_method(buyer.getPay_method())
+                .name(buyer.getName())
+                .amount(buyer.getAmount())
+                .phone(buyer.getPhone())
+                .addr(buyer.getAddr())
+                .post(buyer.getPost())
+                .recipient(buyer.getRecipient())
                 .build();
     }
 
@@ -116,14 +113,9 @@ public class OrderService {
         carts.forEach((cart) -> {
             OrderEntity orderEntity = OrderEntity.builder()
                     .userid(order.getUserid())
-                    .username(order.getUsername())
-                    .ordername(order.getOrdername())
+                    .recipient(order.getOrdername())
                     .post(order.getPost())
-                    .addr1(order.getAddr1())
-                    .addr2(order.getAddr2())
                     .phone(order.getPhone())
-                    .paymethod(order.getPaymethod())
-                    .cartid(cart.getCartid())
                     .gname(cart.getGname())
                     .gcode(cart.getGcode())
                     .gsize(cart.getGsize())

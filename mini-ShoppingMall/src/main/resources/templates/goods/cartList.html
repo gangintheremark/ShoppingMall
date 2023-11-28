@@ -166,7 +166,7 @@
                 </td>
                 <td class="td_default" width="300" style='padding-left: 30px'>
                     <p th:text="${cart.gname}"></p>
-                    <span style="color:#665b5f"> [옵션 : 사이즈(<span th:text="${cart.gsize}"> </span>) , 색상(<span
+                    <span style="color:#665b5f"> [옵션 : 사이즈([[${cart.gsize}]]) , 색상(<span
                             th:text="${cart.gcolor}"></span>)</span>
                 </td>
                 <td class="td_default" align="center" width="110"><span th:id="'gprice' + ${cart.cartid}"
