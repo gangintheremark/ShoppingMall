@@ -6,12 +6,12 @@
 
 ### ▶ Tech Stacks
 
-- Front-end : HTML, Thymeleaf, JQuery <br>
-- Back-end : Java, SpringBoot, JPA, Hibernate <br>
-- build : gradle  <br>
-- DB : MySQL  <br>
-- deployment : Docker, AWS  <br>
-- Tools : IntelliJ, Postman   <br>
+- **Front-end** : HTML, CSS, Thymeleaf, JQuery <br>
+- **Back-end** : Java, SpringBoot, JPA, Hibernate <br>
+- **build** : gradle  <br>
+- **DB** : MySQL  <br>
+- **deployment** : Docker, AWS  <br>
+- **Tools** : IntelliJ, Postman   <br>
 
 ### ▶ 사용자 Flow
 - `회원등록` `회원수정` `회원삭제`
