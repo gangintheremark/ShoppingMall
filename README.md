@@ -27,6 +27,9 @@
 ### ▶ RESTful API
 ![](https://velog.velcdn.com/images/gangintheremark/post/6c5804c0-ec5d-4be9-ad27-47c7b17c3839/image.png)
 
+### ▶ ERD
+![image](https://github.com/gangintheremark/mini-ShoppingMall/assets/81904943/01e0e94d-14a1-4408-9996-972cf03f63b8)
+
 
 ---
 
