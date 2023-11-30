@@ -45,7 +45,7 @@
 ![](https://velog.velcdn.com/images/gangintheremark/post/f7f4af68-116d-4b72-8c97-2a6d952d0cdb/image.gif)
 
 ### 상품 주문
-![](https://velog.velcdn.com/images/gangintheremark/post/65538f21-3ee0-4897-8f51-9f0f9b184fdd/image.gif)
+![](https://velog.velcdn.com/images/gangintheremark/post/67e4adf3-aa53-4d57-9641-fa9ccc9f8e4b/image.png)
 
 ![](https://velog.velcdn.com/images/gangintheremark/post/2416c363-cfc3-408a-990c-edb5c1a291bc/image.gif)
 
