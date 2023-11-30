@@ -44,8 +44,7 @@
 ### 장바구니 삭제
 ![](https://velog.velcdn.com/images/gangintheremark/post/f7f4af68-116d-4b72-8c97-2a6d952d0cdb/image.gif)
 
-### 상품 주문
-![](https://velog.velcdn.com/images/gangintheremark/post/67e4adf3-aa53-4d57-9641-fa9ccc9f8e4b/image.png)
+### 상품 주문 및 결제
+![](https://velog.velcdn.com/images/gangintheremark/post/685bf034-3998-418e-9395-533f324910f4/image.gif)
 
-![](https://velog.velcdn.com/images/gangintheremark/post/2416c363-cfc3-408a-990c-edb5c1a291bc/image.gif)
 
