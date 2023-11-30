@@ -24,7 +24,7 @@
 - `상품 주문 및 결제` 
  
 
-### ▶ RESTFul API
+### ▶ RESTful API
 ![](https://velog.velcdn.com/images/gangintheremark/post/6c5804c0-ec5d-4be9-ad27-47c7b17c3839/image.png)
 
 
