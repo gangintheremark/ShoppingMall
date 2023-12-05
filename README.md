@@ -12,6 +12,7 @@
 - **DB** : MySQL  <br>
 - **deployment** : Docker, AWS  <br>
 - **Tools** : IntelliJ, Postman   <br>
+- **etc** : Iamport
 
 ### ▶ 사용자 Flow
 - `회원등록` `회원수정` `회원삭제`
