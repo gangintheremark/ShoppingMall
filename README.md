@@ -25,10 +25,6 @@
 ![image](https://github.com/gangintheremark/mini-ShoppingMall/assets/81904943/3747e3fc-e8ac-4fb7-9945-6210ded66414)
 
 
-### ▶ ERD
-![image](https://github.com/gangintheremark/mini-ShoppingMall/assets/81904943/01e0e94d-14a1-4408-9996-972cf03f63b8)
-
-
 ---
 
 ### 메인화면
